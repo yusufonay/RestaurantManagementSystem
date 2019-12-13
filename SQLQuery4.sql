@@ -1,0 +1,98 @@
+CREATE SCHEMA Test -- Creating SCHEMA
+
+-- Databases Creation Start --
+
+CREATE TABLE Test.Restaurant (
+	ID				INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	Name			VARCHAR(30) NOT NULL,
+	Address			VARCHAR(30) NOT NULL,
+	Phone			VARCHAR(30) NOT NULL,
+	Website			VARCHAR(30) NOT NULL,
+	Country			VARCHAR(30) NOT NULL,
+	City			VARCHAR(30) NOT NULL,
+	Rooms			VARCHAR(30) NOT NULL,
+	Manager			VARCHAR(30) NOT NULL,		
+);
+
+CREATE TABLE Test.Guests (
+	ID				INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	Name			VARCHAR(30) NOT NULL,		
+	MiddleName		VARCHAR(30) NULL,
+	LastName		VARCHAR(40) NOT NULL,
+	DateofBirth		DATE NOT NULL,
+	Phone			TINYINT NOT NULL,
+	Sex				BIT	NULL,
+	Nationality		VARCHAR(30) NULL,
+	Status			BIT NOT NULL,
+	Room			TINYINT NULL,
+	PaymentMethod	TINYINT NOT NULL,
+	Parking			SMALLINT NULL,
+	Reservation		BIT NULL, 
+	Type			BIT NOT NULL
+);
+
+CREATE TABLE Test.Employees (
+	ID				INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	Name			VARCHAR(30) NOT NULL,
+	MiddleName		VARCHAR(30) NULL,
+	LastName		VARCHAR(40) NOT NULL,
+	Type			TINYINT NOT NULL,
+	DateofBirth		DATE NOT NULL,
+	Sex				BIT NOT NULL,
+	Nationality		VARCHAR(30) NULL,
+	ShiftStatus		DATETIME NOT NULL,
+	ContractType	TINYINT NOT NULL
+);
+
+CREATE TABLE Test.EmployeesShifts (
+	ID		INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	Datein	DATETIME NOT NULL,
+	Dateout	DATETIME NOT NULL
+);
+
+CREATE TABLE Test.Rooms (
+	ID				INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	Type			VARCHAR(30) NOT NULL,
+	Reservation		INT NOT NULL,
+	Number			TINYINT NOT NULL,
+);
+
+CREATE TABLE Test.Payments (
+	ID					INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	OnlinePayment		TINYINT NULL,
+	Cash				TINYINT NULL,
+	CreditorDebit		TINYINT NULL,
+	ConfirmationNumber	TINYINT NULL
+);
+
+CREATE TABLE Test.Reservations (
+	ID			INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	StartDate	DATETIME NOT NULL,
+	EndTime		DATETIME NOT NULL
+);
+
+CREATE TABLE Test.Address (
+	ID				INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	Address				VARCHAR(30) NOT NULL,
+	AddressOptional		VARCHAR(30) NULL,
+	Suite			VARCHAR(10) NOT NULL,
+	PostalCode		VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE Test.Inventory (
+	ID				INT NOT NULL
+		CONSTRAINT id PRIMARY KEY,
+	Tag				VARCHAR(99) NOT NULL,
+	Provider		VARCHAR(99) NULL,
+	Brand			VARCHAR(99) NOT NULL,
+	Model			VARCHAR(50) NOT NULL,
+	Status			TINYINT NOT NULL,	
+);
