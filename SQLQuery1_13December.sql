@@ -14,11 +14,15 @@ CREATE TABLE RestaurantManagementSystem.Cashier(
 	Name  VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE RestaurantManagementSystem.Restaurant (
+  CREATE TABLE RestaurantManagementSystem.Restaurant (
 	ID		INT NOT NULL,
 	Name	VARCHAR(30) NOT NULL,		
 	ContactNumber	VARCHAR (20)  NULL,
-	Address		VARCHAR(200) NOT NULL	
+	Address1		VARCHAR(200) NOT NULL,
+	Address2 VARCHAR(200) NOT NULL,
+	PostCode VARCHAR(10) NOT NULL,
+	CITY VARCHAR (50) NOT NULL,
+	COUNTRY VARCHAR (50) NOT NULL			
 );
 
 CREATE TABLE RestaurantManagementSystem.Bill (
@@ -46,8 +50,10 @@ CREATE TABLE RestaurantManagementSystem.Orders (
 
 CREATE TABLE RestaurantManagementSystem.Cheff (
 	ID				INT NOT NULL,
-	Name			VARCHAR(100) NOT NULL	
+	Name			VARCHAR(100) NOT NULL,
+	Country VARCHAR (50) NOT NULL
 );
+
 
 CREATE TABLE RestaurantManagementSystem.Waiters (
 	ID				INT NOT NULL,
@@ -60,6 +66,8 @@ CREATE TABLE RestaurantManagementSystem.Items (
 	Price MONEY  NOT NULL,
 	Quantity INT	NOT NULL
 );
+
+--Check
 
 ALTER TABLE RestaurantManagementSystem.Cashier
 ADD CONSTRAINT CashierId CHECK (LEN (Name) > 0);
@@ -145,6 +153,65 @@ ALTER TABLE RestaurantManagementSystem.Items
 ADD CONSTRAINT ValidPrice CHECK ( (Price) > 0);
 
 GO
+--Default
+ALTER TABLE RestaurantManagementSystem.Items
+ADD CONSTRAINT DFLTSPrice
+DEFAULT ('Not Applicable') FOR Price;
+GO
+
+--This is our VIEW tables
+
+CREATE VIEW RestaurantManagementSystem.CanadianCheff AS
+SELECT * FROM RestaurantManagementSystem.Cheff
+WHERE Country = 'Canada';
+GO
+
+CREATE VIEW RestaurantManagementSystem.NonCanadianCheff as
+SELECT * FROM RestaurantManagementSystem.Cheff
+WHERE Country <> 'Canada';
+GO
+
+CREATE VIEW RestaurantManagementSystem.RestaurantOfToronto AS
+SELECT * FROM RestaurantManagementSystem.Restaurant
+WHERE CITY = 'Toronto';
+GO
+
+--CREATING INDEX
+
+CREATE INDEX Name ON RestaurantManagementSystem.Waiters (Name)
+WHERE Name IS NOT NULL;
+GO
+
+CREATE INDEX Name ON RestaurantManagementSystem.Manager (Name)
+WHERE Name is NOT NULL;
+GO
+
+CREATE INDEX Name on RestaurantManagementSystem.Customers (Name)
+WHERE Name is not null;
+GO
+
+--CREATE PROCEDURE
+
+CREATE PROCEDURE RestaurantManagementSystem.Customers_Update
+@Id INT,
+@Name VARCHAR (50),
+@Address VARCHAR (200),
+@ContactNumber BIGINT 
+
+AS
+UPDATE RestaurantManagementSystem.Customers
+SET Name = @Name,
+Address = @Address
+WHERE Id = @Id;
+GO
+
+CREATE PROCEDURE RestaurantManagementSystem.Order_Delete
+@OrderNumber INT,
+@NumberofItems INT 
+AS
+DELETE RestaurantManagementSystem.Orders
+WHERE OrderNumber = @OrderNumber
+GO
 
 SELECT * FROM RestaurantManagementSystem.Cashier
 SELECT * FROM RestaurantManagementSystem.Restaurant
@@ -155,5 +222,4 @@ SELECT * FROM RestaurantManagementSystem.Orders
 SELECT * FROM RestaurantManagementSystem.Cheff
 SELECT * FROM RestaurantManagementSystem.Waiters
 SELECT * FROM RestaurantManagementSystem.Items
-
 
